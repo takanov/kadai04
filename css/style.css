@@ -1,0 +1,17 @@
+#start_btn,#end_btn {
+    text-align: center; 
+    height: 50px; 
+    width: 100px;
+}
+
+h2 {
+    text-align:center;
+}
+
+#content {
+    text-align: center;
+}
+
+.btn_wrapper {
+    margin: 0px 47%;
+}
