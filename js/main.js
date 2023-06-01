@@ -50,7 +50,7 @@ $("#save").on('click', function(){
 
     `// テンプレートリテラル
     $("#list").append(html);
-    $("#key").val("");
+    $("#key").text("");
     $("#memo").val("");
 })
 
@@ -61,7 +61,7 @@ $("#save").on('click', function(){
 speech.onresult = function(e) {
     speech.stop();
     if(e.results[0].isFinal) {
-        let autotext = e.results[0][0].transcript
+        let autotext = e.results[0][0].transcript;
         content.innerHTML +=  autotext;
         time.innerHTML += formatDate(date);
     }
@@ -71,3 +71,66 @@ speech.onend = () =>
 {
     speech.start()
 };
+
+
+
+//タスク管理ボード
+
+const defaultBoards = [
+//タスク
+    {
+        "id": "sample-board-1",
+        "title": "タスク",
+        "item": [
+            { "title": "報告書の作成" },
+            { "title": "14時から打ち合わせ" }
+        ]
+    },
+    //進行中
+    {
+        "id": "sample-board-2",
+        "title": "進行中",
+        "item": [{ "title": "○○案の企画書作成" }]
+    },
+    //完了
+    {
+        "id": "sample-board-3",
+        "title": "完了",
+        "item": [{ "title": "日報の提出" }]
+    }
+];
+
+
+
+
+const kanban = new jKanban({
+    element:'#myKanban', //タスク管理ボードを表示させたいhtml要素
+    gutter: '15px', //ボード同士の間隔
+    widthBoard: '250px', //ボードサイズ
+    boards: defaultBoards, //初期状態のボードの中身をJSONで指定
+    itemAddOptions: {
+        enabled: true,                                              // add a button to board for easy item creation
+        content: '+',                                                // text or html content of the board button   
+        class: 'kanban-title-button btn btn-default btn-xs',         // default class of the button
+        footer: false                                                // position the button on footer
+    },    
+    //buttonClick : (elem, id) => addFormElement(id);
+});
+
+
+
+
+//   let removeBoard = document.getElementById("removeBoard");
+//   removeBoard.addEventListener("click", function() {
+//     KanbanTest.removeBoard("_done");
+//   });
+
+//   let removeElement = document.getElementById("removeElement");
+//   removeElement.addEventListener("click", function() {
+//     KanbanTest.removeElement("_test_delete");
+//   });
+
+//   let allEle = KanbanTest.getBoardElements("_todo");
+//   allEle.forEach(function(item, index) {
+//     //console.log(item);
+//   });
