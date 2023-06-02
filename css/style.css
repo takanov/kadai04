@@ -55,3 +55,12 @@ body {
     display: inline-block;
     font-size: 16px;
 }
+.task {
+    background-color: #F4CE46;
+}
+.progress {
+    background-color: #2A92BF;
+}
+.done {
+    background-color: #00B961;
+}

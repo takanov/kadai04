@@ -79,8 +79,9 @@ speech.onend = () =>
 const defaultBoards = [
 //タスク
     {
-        "id": "sample-board-1",
+        "id": "todo",
         "title": "タスク",
+        "class": "task",
         "item": [
             { "title": "報告書の作成" },
             { "title": "14時から打ち合わせ" }
@@ -88,35 +89,91 @@ const defaultBoards = [
     },
     //進行中
     {
-        "id": "sample-board-2",
+        "id": "working",
         "title": "進行中",
+        "class": "progress",
         "item": [{ "title": "○○案の企画書作成" }]
     },
     //完了
     {
-        "id": "sample-board-3",
+        "id": "done",
         "title": "完了",
+        "class": "done",
         "item": [{ "title": "日報の提出" }]
     }
 ];
 
-
-
-
-const kanban = new jKanban({
+let kanban
+// ページ読み込み時にローカルストレージからボードの状態を復元
+const savedData = localStorage.getItem(formatDate(date));
+if (savedData) {
+    const parsedData = JSON.parse(savedData);
+    // 復元したデータを用いてkanbanオブジェクトを作成
+    let kanban = new jKanban({
+        // ...その他の設定...
+        boards: [
+            { id: 'todo', title: 'タスク', class: 'task', item: parsedData.todo },
+            { id: 'working', title: '進行中', class: 'progress', item: parsedData.working },
+            { id: 'done', title: '完了', class: 'done', item: parsedData.done },
+        ],
+    });
+} else {
+    kanban = new jKanban({
     element:'#myKanban', //タスク管理ボードを表示させたいhtml要素
     gutter: '15px', //ボード同士の間隔
     widthBoard: '250px', //ボードサイズ
-    boards: defaultBoards, //初期状態のボードの中身をJSONで指定
+    boards: defaultBoards, //
     itemAddOptions: {
-        enabled: true,                                              // add a button to board for easy item creation
-        content: '+',                                                // text or html content of the board button   
-        class: 'kanban-title-button btn btn-default btn-xs',         // default class of the button
-        footer: false                                                // position the button on footer
-    },    
-    //buttonClick : (elem, id) => addFormElement(id);
+        enabled: true,                                              //  ボードにボタンを追加し、アイテム作成が簡単にできるようにする
+        content: '+',                                                // ボードボタンのテキストまたはhtmlコンテンツ  
+        class: 'kanban-title-button btn btn-default btn-xs',         // ボタンのデフォルトクラス
+        footer: false                                                // ボタンをフッターに配置する
+    },  
+    buttonClick : (el, boardId) => addFormElement(boardId),
+    //要素を削除
+    click: (el) => kanban.removeElement(el),
+    
 });
+}
 
+
+
+function addFormElement(boardId) {
+    const formItem = document.createElement('form');
+    formItem.setAttribute("class", "itemform");
+    formItem.innerHTML = '<div class="form-group"><textarea class="form-control" rows="2" autofocus></textarea></div><div class="form-group"><button type="submit" class="btn btn-primary btn-xs pull-right">Submit</button><button type="button" id="CancelBtn" class="btn btn-default btn-xs pull-right">Cancel</button></div>';
+
+    kanban.addForm(boardId, formItem);
+    formItem.addEventListener('submit', (e) => {
+        e.preventDefault();
+        
+        //入力された「タスク」をボードに登録
+        kanban.addElement(boardId, {"title": e.target[0].value});
+        
+        //フォーム要素を非表示にするため削除
+        formItem.parentNode.removeChild(formItem);
+        saveBoardState();
+      });
+      document.getElementById("CancelBtn").onclick = function() {
+        formItem.parentNode.removeChild(formItem);
+      };
+}
+
+
+//ボードの状態を保存
+function saveBoardState() {
+    const boardData = {
+        todo: kanban.getBoardElements('todo'),
+        working: kanban.getBoardElements('working'),
+        done: kanban.getBoardElements('done'),
+    };
+    console.log('Saving board data:', boardData);
+    localStorage.setItem(formatDate(date), JSON.stringify(boardData));
+}
+
+$(kanban).on('elementDragend', (el) => {
+    saveBoardState();
+});
 
 
 
