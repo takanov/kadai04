@@ -74,8 +74,7 @@ function formatDate(date) {
 
 
 
-//タスク管理ボード
-
+//タスク管理ボードの初期データ
 const defaultBoards = [
 //タスク
     {
@@ -83,7 +82,7 @@ const defaultBoards = [
         "title": "タスク",
         "class": "task",
         "item": [
-            { "title": "報告書の作成" },
+            { "title": "やることを入力" },
         ]
     },
     //進行中
@@ -91,18 +90,18 @@ const defaultBoards = [
         "id": "working",
         "title": "進行中",
         "class": "progress",
-        "item": [{ "title": "○○案の企画書作成" }]
+        "item": [{ "title": "進行中のものを入力" }]
     },
     //完了
     {
         "id": "done",
         "title": "完了",
         "class": "done",
-        "item": [{ "title": "日報の提出" }]
+        "item": [{ "title": "完了したものを入力" }]
     }
 ];
 
-let kanban
+let kanban;
 // ページ読み込み時にローカルストレージからボードの状態を復元
 const savedData = localStorage.getItem(formatDate(date));
 if (savedData) {

@@ -26,6 +26,8 @@ body {
 #myKanban {
     overflow-x: auto;
     padding: 20px 0;
+    width: 1024px;
+    margin: 0 auto;
 }
 
 .success {
@@ -56,11 +58,20 @@ body {
     font-size: 16px;
 }
 .task {
-    background-color: #F4CE46;
+    background-color: #fce17f;
 }
 .progress {
-    background-color: #2A92BF;
+    background-color: #7dd8ff;
 }
 .done {
-    background-color: #00B961;
+    background-color: #53faaa;
+}
+.words {
+    width: 1024px;
+    margin: 0 auto;
+    text-align: center;
+}
+.contents-title {
+    font-size: 64px;
+    margin-bottom: 64px;
 }

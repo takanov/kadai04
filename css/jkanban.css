@@ -2,6 +2,7 @@
   position: relative;
   box-sizing: border-box;
   width: auto;
+  margin: 0 auto;
 }
 
 .kanban-container * {
@@ -17,9 +18,10 @@
 .kanban-board {
   position: relative;
   float: left;
-  background: #e2e4e6;
+  background: #fff;
   transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
-}
+  border-radius: 16px;
+  box-shadow: rgba(0, 0, 0, 0.15) 0px 5px 15px 0px;}
 
 .kanban-board.disabled-board {
   opacity: 0.3;
@@ -37,6 +39,7 @@
 .kanban-board header {
   font-size: 16px;
   padding: 15px;
+  border-radius: 16px 16px 0 0;
 }
 
 .kanban-board header .kanban-title-board {
@@ -62,11 +65,13 @@
 }
 
 .kanban-item {
-  background: #fff;
+  background: #f7f7f7;
+  border-radius: 8px;
   padding: 15px;
   margin-bottom: 20px;
   transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
   animation: append-animate 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+  box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
 }
 
 @keyframes append-animate {
